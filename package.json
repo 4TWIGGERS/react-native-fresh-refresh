@@ -1,20 +1,18 @@
 {
-  "name": "react-native-fresh-refresh",
-  "version": "1.0.0",
-  "description": "Custom pull to refresh",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "4twiggers",
-  "license": "ISC",
-  "peerDependencies": {
-    "expo": "~42.0.1",
-    "lottie-react-native": "^4.0.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
-    "react-native-gesture-handler": "~1.10.2",
-    "react-native-reanimated": "~2.2.0"
-  }
+	"name": "react-native-fresh-refresh22",
+	"version": "1.0.2",
+	"description": "Custom pull to refresh",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "4twiggers",
+	"license": "ISC",
+	"peerDependencies": {
+		"react": "*",
+		"react-native": "*",
+		"react-native-gesture-handler": "^1.10.2",
+		"react-native-reanimated": "^2.2.0",
+		"prop-types": "^15.7.2"
+	}
 }
