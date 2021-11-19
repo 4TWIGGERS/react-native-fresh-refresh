@@ -1,6 +1,6 @@
 {
-	"name": "react-native-fresh-refresh2222",
-	"version": "1.0.2",
+	"name": "react-native-fresh-refresh",
+	"version": "1.0.0",
 	"description": "Custom pull to refresh",
 	"main": "index.js",
 	"scripts": {
