@@ -1,5 +1,5 @@
 {
-	"name": "react-native-fresh-refresh22",
+	"name": "react-native-fresh-refresh2222",
 	"version": "1.0.2",
 	"description": "Custom pull to refresh",
 	"main": "index.js",
@@ -8,11 +8,15 @@
 	},
 	"author": "4twiggers",
 	"license": "ISC",
+	"dependencies": {
+		"prop-types": "^15.7.2",
+		"lottie-react-native": "^4.0.2"
+	},
 	"peerDependencies": {
 		"react": "*",
 		"react-native": "*",
 		"react-native-gesture-handler": "^1.10.2",
-		"react-native-reanimated": "^2.2.0",
-		"prop-types": "^15.7.2"
+		"react-native-reanimated": "^2.2.0"
+	
 	}
 }

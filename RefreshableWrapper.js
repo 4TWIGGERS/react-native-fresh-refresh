@@ -22,7 +22,7 @@ const { height } = Dimensions.get('screen');
 
 const RefreshableWrapper = ({
 	isLoading,
-	refreshHeight = height * 0.5,
+	refreshHeight = height * 0.2,
 	onRefresh,
 	children,
 	Loader = () => (
@@ -172,5 +172,4 @@ RefreshableWrapper.propTypes = {
 	refreshHeight: PropTypes.number,
 	onRefresh: PropTypes.func,
 	Loader: PropTypes.func,
-	EmptyComponent: PropTypes.func,
 };
