@@ -84,7 +84,9 @@ const RefreshableWrapper = ({
 	});
 
 	useDerivedValue(() => {
-		contentOffset.value = loaderOffsetY.value;
+		if (contentOffset) {
+			contentOffset.value = loaderOffsetY.value;
+		}
 	}, [loaderOffsetY]);
 
 	const loaderAnimation = useAnimatedStyle(() => {
