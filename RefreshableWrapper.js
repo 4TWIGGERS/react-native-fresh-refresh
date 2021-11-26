@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native/lib/LottieView';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
 	PanGestureHandler,
 	NativeViewGestureHandler,
@@ -13,17 +13,18 @@ import Animated, {
 	useAnimatedGestureHandler,
 	useAnimatedScrollHandler,
 	useAnimatedStyle,
+	useDerivedValue,
 	useSharedValue,
 	withSpring,
 	withTiming,
 } from 'react-native-reanimated';
 
-const { height } = Dimensions.get('screen');
-
 const RefreshableWrapper = ({
 	isLoading,
-	refreshHeight = height * 0.2,
 	onRefresh,
+	refreshHeight = 600,
+	defaultAnimationEnabled,
+	sharedValue,
 	children,
 	Loader = () => (
 		<LottieView
@@ -78,30 +79,33 @@ const RefreshableWrapper = ({
 		},
 	});
 
+	useDerivedValue(() => {
+		sharedValue.value = loaderOffsetY.value;
+	}, [loaderOffsetY]);
+
 	const loaderAnimation = useAnimatedStyle(() => {
 		return {
 			position: 'absolute',
 			alignSelf: 'center',
-			opacity: isLoaderActive.value
-				? isRefreshing.value
-					? withTiming(1)
-					: interpolate(loaderOffsetY.value, [0, refreshHeight], [0.1, 0.5])
-				: withTiming(0.1),
-			transform: [
-				{
-					translateY: isLoaderActive.value
-						? interpolate(
-								loaderOffsetY.value,
-								[0, refreshHeight - 50],
-								[-10, 10],
-								Extrapolate.CLAMP
-						  )
-						: withTiming(-10),
-				},
-				{
-					scale: isLoaderActive.value ? withSpring(1) : withTiming(0.01),
-				},
-			],
+			opacity: 1,
+			height: refreshHeight,
+			transform: defaultAnimationEnabled
+				? [
+						{
+							translateY: isLoaderActive.value
+								? interpolate(
+										loaderOffsetY.value,
+										[0, refreshHeight - 20],
+										[-10, 10],
+										Extrapolate.CLAMP
+								  )
+								: withTiming(-10),
+						},
+						{
+							scale: isLoaderActive.value ? withSpring(1) : withTiming(0.01),
+						},
+				  ]
+				: undefined,
 		};
 	});
 
@@ -111,11 +115,11 @@ const RefreshableWrapper = ({
 				{
 					translateY: isLoaderActive.value
 						? isRefreshing.value
-							? withTiming(50)
+							? withTiming(refreshHeight)
 							: interpolate(
 									loaderOffsetY.value,
 									[0, refreshHeight],
-									[0, 80],
+									[0, refreshHeight],
 									Extrapolate.CLAMP
 							  )
 						: withTiming(0),
@@ -126,6 +130,10 @@ const RefreshableWrapper = ({
 
 	return (
 		<View style={styles.FlexView}>
+			<Animated.View style={loaderAnimation}>
+				<Loader />
+			</Animated.View>
+
 			<PanGestureHandler
 				ref={panRef}
 				simultaneousHandlers={listWrapperRef}
@@ -143,9 +151,6 @@ const RefreshableWrapper = ({
 					</NativeViewGestureHandler>
 				</Animated.View>
 			</PanGestureHandler>
-			<Animated.View style={[loaderAnimation]}>
-				<Loader />
-			</Animated.View>
 		</View>
 	);
 };
@@ -167,9 +172,14 @@ const styles = StyleSheet.create({
 
 export default RefreshableWrapper;
 
+RefreshableWrapper.defaultProps = {
+	defaultAnimationEnabled: true,
+};
+
 RefreshableWrapper.propTypes = {
 	isLoading: PropTypes.bool,
 	refreshHeight: PropTypes.number,
 	onRefresh: PropTypes.func,
 	Loader: PropTypes.func,
+	defaultAnimationEnabled: PropTypes.bool,
 };
