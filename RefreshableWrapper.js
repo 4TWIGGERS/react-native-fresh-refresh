@@ -189,4 +189,5 @@ RefreshableWrapper.propTypes = {
 	onRefresh: PropTypes.func,
 	Loader: PropTypes.func,
 	defaultAnimationEnabled: PropTypes.bool,
+	contentOffset: PropTypes.object,
 };
