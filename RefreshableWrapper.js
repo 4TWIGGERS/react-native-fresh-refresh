@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import LottieView from 'lottie-react-native/lib/LottieView';
+import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 import {
 	PanGestureHandler,
@@ -22,7 +22,7 @@ import Animated, {
 const RefreshableWrapper = ({
 	isLoading,
 	onRefresh,
-	refreshHeight = 600,
+	refreshHeight = 100,
 	defaultAnimationEnabled,
 	contentOffset,
 	children,
@@ -44,7 +44,7 @@ const RefreshableWrapper = ({
 	useEffect(() => {
 		if (!isLoading) {
 			loaderOffsetY.value = withTiming(0);
-			isRefreshing.value = withTiming(false);
+			isRefreshing.value = false;
 			isLoaderActive.value = false;
 		}
 	}, [isLoading]);
@@ -77,6 +77,10 @@ const RefreshableWrapper = ({
 				}
 			}
 		},
+		onCancel: (_) => {
+			isLoaderActive.value = false;
+			loaderOffsetY.value = withTiming(0);
+		},
 	});
 
 	useDerivedValue(() => {
@@ -85,6 +89,7 @@ const RefreshableWrapper = ({
 
 	const loaderAnimation = useAnimatedStyle(() => {
 		return {
+			height: refreshHeight,
 			transform: defaultAnimationEnabled
 				? [
 						{
@@ -125,8 +130,8 @@ const RefreshableWrapper = ({
 	});
 
 	return (
-		<View style={styles.FlexView}>
-			<Animated.View style={[loaderContainer, loaderAnimation]}>
+		<View style={styles.flex}>
+			<Animated.View style={[styles.loaderContainer, loaderAnimation]}>
 				<Loader />
 			</Animated.View>
 
@@ -135,15 +140,16 @@ const RefreshableWrapper = ({
 				simultaneousHandlers={listWrapperRef}
 				onGestureEvent={onPanGestureEvent}
 			>
-				<Animated.View style={[styles.FlexView, overscrollAnimation]}>
+				<Animated.View style={[styles.flex, overscrollAnimation]}>
 					<NativeViewGestureHandler
 						ref={listWrapperRef}
 						simultaneousHandlers={panRef}
 					>
-						{React.cloneElement(children, {
-							onScroll: onListScroll,
-							bounces: false,
-						})}
+						{children &&
+							React.cloneElement(children, {
+								onScroll: onListScroll,
+								bounces: false,
+							})}
 					</NativeViewGestureHandler>
 				</Animated.View>
 			</PanGestureHandler>
@@ -152,7 +158,7 @@ const RefreshableWrapper = ({
 };
 
 const styles = StyleSheet.create({
-	FlexView: {
+	flex: {
 		flex: 1,
 	},
 	contenContainer: {
@@ -168,7 +174,6 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		alignSelf: 'center',
 		opacity: 1,
-		height: refreshHeight,
 	},
 });
 
