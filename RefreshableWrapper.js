@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		alignItems: 'center',
 		width: '100%',
-		opacity: 1,
 	},
 });
 
