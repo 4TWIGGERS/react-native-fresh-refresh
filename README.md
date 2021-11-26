@@ -163,6 +163,8 @@ const styles = StyleSheet.create({
 });
 ```
 
+<img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/refresh.gif">
+
 ## Advanced usage
 
 You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
@@ -192,5 +194,3 @@ const contentOffset = useSharedValue(0);
 ## Hire us
 
 Contact us at hello@4twiggers.com
-
-<img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/refresh.gif">
