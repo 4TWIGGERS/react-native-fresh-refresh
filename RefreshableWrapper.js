@@ -24,7 +24,7 @@ const RefreshableWrapper = ({
 	onRefresh,
 	refreshHeight = 600,
 	defaultAnimationEnabled,
-	sharedValue,
+	contentOffset,
 	children,
 	Loader = () => (
 		<LottieView
@@ -80,15 +80,11 @@ const RefreshableWrapper = ({
 	});
 
 	useDerivedValue(() => {
-		sharedValue.value = loaderOffsetY.value;
+		contentOffset.value = loaderOffsetY.value;
 	}, [loaderOffsetY]);
 
 	const loaderAnimation = useAnimatedStyle(() => {
 		return {
-			position: 'absolute',
-			alignSelf: 'center',
-			opacity: 1,
-			height: refreshHeight,
 			transform: defaultAnimationEnabled
 				? [
 						{
@@ -130,7 +126,7 @@ const RefreshableWrapper = ({
 
 	return (
 		<View style={styles.FlexView}>
-			<Animated.View style={loaderAnimation}>
+			<Animated.View style={[loaderContainer, loaderAnimation]}>
 				<Loader />
 			</Animated.View>
 
@@ -167,6 +163,12 @@ const styles = StyleSheet.create({
 	lottie: {
 		height: 50,
 		width: 50,
+	},
+	loaderContainer: {
+		position: 'absolute',
+		alignSelf: 'center',
+		opacity: 1,
+		height: refreshHeight,
 	},
 });
 

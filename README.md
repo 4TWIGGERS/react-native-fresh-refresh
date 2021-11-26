@@ -22,7 +22,7 @@ npm i -S react-native-fresh-refresh
 
 ## Prerequisites
 
-You are gonna need to have reanimated v2 and react-native-gesture-handler installed in your project.
+You are going to need to have reanimated v2 and react-native-gesture-handler installed in your project.
 
 ## Step 2
 
@@ -44,6 +44,7 @@ Wrap the component
 
 ```jsx
 <RefreshableWrapper
+	contentOffset={contentOffset}
 	Loader={() => (
 		<LottieView
 			style={styles.lottie}
@@ -60,7 +61,7 @@ Wrap the component
 </RefreshableWrapper>
 ```
 
-# -- Example
+## Example
 
 ```jsx
 import { StatusBar } from 'expo-status-bar';
@@ -108,6 +109,7 @@ export default function App() {
 			<StatusBar style='auto' />
 			<View style={styles.header}></View>
 			<RefreshableWrapper
+				contentOffset={contentOffset}
 				Loader={() => (
 					<LottieView
 						style={styles.lottie}
@@ -161,6 +163,34 @@ const styles = StyleSheet.create({
 });
 ```
 
+<img width="300"  src="./gif/refresh.gif">
+
+## Advanced usage
+
+You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
+
+Pass Reanimated sharedValue to get overdrag Y-Offset
+
+```jsx
+const contentOffset = useSharedValue(0);
+```
+
+```jsx
+<RefreshableWrapper
+	defaultAnimationEnabled={false}
+	contentOffset={contentOffset}
+	Loader={() => ({
+		<YourAwsomeComponent />
+	})}
+	isLoading={isLoading}
+	onRefresh={() => {
+		refreshHandler();
+	}}
+>
+	<AnimatedFlatlist />
+</RefreshableWrapper>
+```
+
 ## Hire us
 
-Message us at hello@4twiggers.com
+Contact us at hello@4twiggers.com
