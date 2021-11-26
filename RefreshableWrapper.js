@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
 	},
 	loaderContainer: {
 		position: 'absolute',
-		alignSelf: 'center',
+		alignItems: 'center',
+		width: '100%',
 		opacity: 1,
 	},
 });
