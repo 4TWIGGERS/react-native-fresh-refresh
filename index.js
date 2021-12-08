@@ -1,3 +1,3 @@
-import RefreshableWrapper from "./RefreshableWrapper";
+import RefreshableWrapper from './RefreshableWrapper';
 
 export default RefreshableWrapper;
