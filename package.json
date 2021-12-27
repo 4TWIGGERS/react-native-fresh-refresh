@@ -1,22 +1,32 @@
 {
-	"name": "react-native-fresh-refresh",
-	"version": "1.0.0",
-	"description": "Custom pull to refresh",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "4twiggers",
-	"license": "ISC",
-	"dependencies": {
-		"prop-types": "^15.7.2",
-		"lottie-react-native": "^4.0.2"
-	},
-	"peerDependencies": {
-		"react": "*",
-		"react-native": "*",
-		"react-native-gesture-handler": "^1.10.2",
-		"react-native-reanimated": "^2.2.0"
-	
-	}
+  "name": "react-native-fresh-refresh",
+  "version": "1.0.0",
+  "description": "Custom pull to refresh",
+  "main": "lib/index.js",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.umd.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "4twiggers",
+  "license": "ISC",
+  "dependencies": {
+    "lottie-react-native": "^4.0.2",
+    "prop-types": "^15.7.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "^1.10.2",
+    "react-native-reanimated": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.37",
+    "@types/react-native": "^0.66.9",
+    "@types/react-test-renderer": "^17.0.1",
+    "typescript": "^4.5.4"
+  }
 }
