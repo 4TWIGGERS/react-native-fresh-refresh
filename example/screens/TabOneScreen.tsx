@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Text, View } from '../components/Themed';
-// import AnimatedLottieView from 'lottie-react-native';
+import AnimatedLottieView from 'lottie-react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 // @ts-ignore
 import RefreshableWrapper from 'react-native-fresh-refresh';
@@ -45,14 +45,11 @@ export default function TabOneScreen() {
       <RefreshableWrapper
         contentOffset={contentOffset}
         Loader={() => (
-          <View>
-            <Text>dasda</Text>
-          </View>
-          // <AnimatedLottieView
-          //   style={styles.lottie}
-          //   autoPlay
-          //   source={require('react-native-fresh-refresh/refresh.json')}
-          // />
+          <AnimatedLottieView
+            style={styles.lottie}
+            autoPlay
+            source={require('react-native-fresh-refresh/refresh.json')}
+          />
         )}
         isLoading={isLoading}
         onRefresh={() => {
