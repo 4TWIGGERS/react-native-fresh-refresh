@@ -1,0 +1,26 @@
+{
+   "compilerOptions": {
+    "target": "ES2015",
+    "module": "es2015",
+    "jsx": "react",
+    "outDir": "lib",
+    "rootDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true
+ },
+ "include": ["dist/index.tsx"],
+    "exclude": [
+      "./node_modules",
+      "./babel.config.js",
+      "./metro.config.js",
+      "./jest.config.js",
+      "./example"
+    ]
+  }

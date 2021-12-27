@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+// @ts-ignore
 import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 import {
   PanGestureHandler,
   NativeViewGestureHandler,
+  // @ts-ignore
 } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
@@ -17,9 +18,21 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
+  PanGestureHandlerGestureEvent,
+  // @ts-ignore
 } from 'react-native-reanimated';
 
-const RefreshableWrapper = ({
+interface Props {
+  isLoading: boolean;
+  onRefresh: () => void;
+  refreshHeight?: number;
+  defaultAnimationEnabled?: boolean;
+  contentOffset?: Animated.useSharedValue;
+  children: JSX.Element;
+  Loader?: () => JSX.Element;
+}
+
+const RefreshableWrapper: React.FC<Props> = ({
   isLoading,
   onRefresh,
   refreshHeight = 100,
@@ -30,7 +43,7 @@ const RefreshableWrapper = ({
     <LottieView
       style={styles.lottie}
       autoPlay
-      source={require('./refresh.json')}
+      source={require('../refresh.json')}
     />
   ),
 }) => {
@@ -49,39 +62,46 @@ const RefreshableWrapper = ({
     }
   }, [isLoading]);
 
-  const onListScroll = useAnimatedScrollHandler((event) => {
-    listContentOffsetY.value = event.contentOffset.y;
-  });
+  const onListScroll = useAnimatedScrollHandler(
+    (event: { contentOffset: { y: number } }) => {
+      const y = event.contentOffset.y;
+      listContentOffsetY.value = y;
+    }
+  );
 
-  const onPanGestureEvent = useAnimatedGestureHandler({
-    onStart: (_) => {},
-    onActive: (event, _) => {
-      isLoaderActive.value = loaderOffsetY.value > 0;
+  const onPanGestureEvent =
+    useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
+      onStart: (_: object) => {},
+      onActive: (
+        event: { velocityY: number; translationY: number },
+        _: object
+      ) => {
+        isLoaderActive.value = loaderOffsetY.value > 0;
 
-      if (
-        ((listContentOffsetY.value <= 0 && event.velocityY >= 0) ||
-          isLoaderActive.value) &&
-        !isRefreshing.value
-      ) {
-        loaderOffsetY.value = event.translationY;
-      }
-    },
-    onEnd: (_) => {
-      if (!isRefreshing.value) {
-        if (loaderOffsetY.value >= refreshHeight && !isRefreshing.value) {
-          isRefreshing.value = true;
-          runOnJS(onRefresh)();
-        } else {
-          isLoaderActive.value = false;
-          loaderOffsetY.value = withTiming(0);
+        if (
+          ((listContentOffsetY.value <= 0 && event.velocityY >= 0) ||
+            isLoaderActive.value) &&
+          !isRefreshing.value
+        ) {
+          loaderOffsetY.value = event.translationY;
         }
-      }
-    },
-    onCancel: (_) => {
-      isLoaderActive.value = false;
-      loaderOffsetY.value = withTiming(0);
-    },
-  });
+      },
+      onEnd: (_: object) => {
+        if (!isRefreshing.value) {
+          if (loaderOffsetY.value >= refreshHeight && !isRefreshing.value) {
+            isRefreshing.value = true;
+            runOnJS(onRefresh)();
+          } else {
+            isLoaderActive.value = false;
+            loaderOffsetY.value = withTiming(0);
+          }
+        }
+      },
+      onCancel: (_: object) => {
+        isLoaderActive.value = false;
+        loaderOffsetY.value = withTiming(0);
+      },
+    });
 
   useDerivedValue(() => {
     if (contentOffset) {
@@ -180,16 +200,3 @@ const styles = StyleSheet.create({
 });
 
 export default RefreshableWrapper;
-
-RefreshableWrapper.defaultProps = {
-  defaultAnimationEnabled: true,
-};
-
-RefreshableWrapper.propTypes = {
-  isLoading: PropTypes.bool,
-  refreshHeight: PropTypes.number,
-  onRefresh: PropTypes.func,
-  Loader: PropTypes.func,
-  defaultAnimationEnabled: PropTypes.bool,
-  contentOffset: PropTypes.object,
-};
