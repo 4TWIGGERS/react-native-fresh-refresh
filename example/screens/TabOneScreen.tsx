@@ -55,7 +55,6 @@ export default function TabOneScreen() {
         onRefresh={() => {
           refreshSimulationHandler();
         }}
-        EmptyComponent={EmptyComponent}
       >
         <AnimatedFlatlist
           data={listData}

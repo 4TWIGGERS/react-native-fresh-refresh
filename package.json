@@ -2,9 +2,8 @@
   "name": "react-native-fresh-refresh",
   "version": "1.0.0",
   "description": "Custom pull to refresh",
+  "source": "./index.tsx",
   "main": "lib/index.js",
-  "module": "dist/index.mjs",
-  "unpkg": "dist/index.umd.js",
   "types": "lib/index.d.ts",
   "prepare": "tsc",
   "scripts": {

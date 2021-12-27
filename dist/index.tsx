@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes, { number } from 'prop-types';
+// @ts-ignore
 import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 import {
@@ -25,11 +25,11 @@ import Animated, {
 interface Props {
   isLoading: boolean;
   onRefresh: () => void;
-  refreshHeight: number;
-  defaultAnimationEnabled: boolean;
-  contentOffset: Animated.useSharedValue;
+  refreshHeight?: number;
+  defaultAnimationEnabled?: boolean;
+  contentOffset?: Animated.useSharedValue;
   children: JSX.Element;
-  Loader: () => JSX.Element;
+  Loader?: () => JSX.Element;
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -43,7 +43,7 @@ const RefreshableWrapper: React.FC<Props> = ({
     <LottieView
       style={styles.lottie}
       autoPlay
-      source={require('./refresh.json')}
+      source={require('../refresh.json')}
     />
   ),
 }) => {
@@ -200,7 +200,3 @@ const styles = StyleSheet.create({
 });
 
 export default RefreshableWrapper;
-
-RefreshableWrapper.defaultProps = {
-  defaultAnimationEnabled: true,
-};
