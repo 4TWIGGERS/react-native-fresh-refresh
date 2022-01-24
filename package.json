@@ -6,6 +6,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "prepare": "tsc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4TWIGGERS/react-native-fresh-refresh"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
