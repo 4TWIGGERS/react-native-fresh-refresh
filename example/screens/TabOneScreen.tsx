@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  View,
   StyleSheet,
   StatusBar,
   FlatList,
@@ -7,10 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-import { Text, View } from '../components/Themed';
-// import AnimatedLottieView from 'lottie-react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';
-// @ts-ignore
 import RefreshableWrapper from 'react-native-fresh-refresh';
 import EmptyComponent from '../components/EmptyComponent';
 import ListItem from '../components/ListItem';
