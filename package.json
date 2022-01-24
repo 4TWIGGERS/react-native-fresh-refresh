@@ -16,15 +16,11 @@
   },
   "author": "4twiggers",
   "license": "ISC",
-  "dependencies": {
-    "@types/node": "14.14.2",
-    "lottie-react-native": "^4.0.2"
-  },
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-gesture-handler": "^1.10.2",
-    "react-native-reanimated": "^2.2.0"
+    "react-native-gesture-handler": "^2.1.0",
+    "react-native-reanimated": "^2.3.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.37",

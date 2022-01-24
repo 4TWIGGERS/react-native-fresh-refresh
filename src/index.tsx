@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-// @ts-ignore
-import LottieView from 'lottie-react-native';
 import { StyleSheet, View } from 'react-native';
 import {
   PanGestureHandler,
   NativeViewGestureHandler,
-  // @ts-ignore
+  PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
+import DefaultLoader from './loader';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -18,8 +17,6 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
-  PanGestureHandlerGestureEvent,
-  // @ts-ignore
 } from 'react-native-reanimated';
 
 interface Props {
@@ -27,9 +24,9 @@ interface Props {
   onRefresh: () => void;
   refreshHeight?: number;
   defaultAnimationEnabled?: boolean;
-  contentOffset?: Animated.useSharedValue;
+  contentOffset?: Animated.SharedValue<number>;
   children: JSX.Element;
-  Loader?: () => JSX.Element;
+  Loader?: () => JSX.Element | JSX.Element;
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -39,13 +36,7 @@ const RefreshableWrapper: React.FC<Props> = ({
   defaultAnimationEnabled,
   contentOffset,
   children,
-  Loader = () => (
-    <LottieView
-      style={styles.lottie}
-      autoPlay
-      source={require('../refresh.json')}
-    />
-  ),
+  Loader = <DefaultLoader />,
 }) => {
   const panRef = useRef();
   const listWrapperRef = useRef();
@@ -154,7 +145,7 @@ const RefreshableWrapper: React.FC<Props> = ({
   return (
     <View style={styles.flex}>
       <Animated.View style={[styles.loaderContainer, loaderAnimation]}>
-        <Loader />
+        {typeof Loader === 'function' ? <Loader /> : Loader}
       </Animated.View>
 
       <PanGestureHandler
@@ -187,10 +178,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     paddingBottom: 100,
-  },
-  lottie: {
-    height: 50,
-    width: 50,
   },
   loaderContainer: {
     position: 'absolute',
