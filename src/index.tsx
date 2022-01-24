@@ -1,16 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  PanGestureHandler,
-  NativeViewGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import DefaultLoader from './loader';
 import Animated, {
   Extrapolate,
   interpolate,
   runOnJS,
-  useAnimatedGestureHandler,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
@@ -38,8 +33,6 @@ const RefreshableWrapper: React.FC<Props> = ({
   children,
   Loader = <DefaultLoader />,
 }) => {
-  const panRef = useRef();
-  const listWrapperRef = useRef();
   const isRefreshing = useSharedValue(false);
   const loaderOffsetY = useSharedValue(0);
   const listContentOffsetY = useSharedValue(0);
@@ -60,38 +53,30 @@ const RefreshableWrapper: React.FC<Props> = ({
     }
   );
 
-  const onPanGestureEvent =
-    useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
-      onStart: (_: object) => {},
-      onActive: (
-        event: { velocityY: number; translationY: number },
-        _: object
-      ) => {
-        isLoaderActive.value = loaderOffsetY.value > 0;
+  const panGesture = Gesture.Pan()
+    .onChange((event) => {
+      'worklet';
+      isLoaderActive.value = loaderOffsetY.value > 0;
 
-        if (
-          ((listContentOffsetY.value <= 0 && event.velocityY >= 0) ||
-            isLoaderActive.value) &&
-          !isRefreshing.value
-        ) {
-          loaderOffsetY.value = event.translationY;
+      if (
+        ((listContentOffsetY.value <= 0 && event.velocityY >= 0) ||
+          isLoaderActive.value) &&
+        !isRefreshing.value
+      ) {
+        loaderOffsetY.value = event.translationY;
+      }
+    })
+    .onEnd(() => {
+      'worklet';
+      if (!isRefreshing.value) {
+        if (loaderOffsetY.value >= refreshHeight && !isRefreshing.value) {
+          isRefreshing.value = true;
+          runOnJS(onRefresh)();
+        } else {
+          isLoaderActive.value = false;
+          loaderOffsetY.value = withTiming(0);
         }
-      },
-      onEnd: (_: object) => {
-        if (!isRefreshing.value) {
-          if (loaderOffsetY.value >= refreshHeight && !isRefreshing.value) {
-            isRefreshing.value = true;
-            runOnJS(onRefresh)();
-          } else {
-            isLoaderActive.value = false;
-            loaderOffsetY.value = withTiming(0);
-          }
-        }
-      },
-      onCancel: (_: object) => {
-        isLoaderActive.value = false;
-        loaderOffsetY.value = withTiming(0);
-      },
+      }
     });
 
   useDerivedValue(() => {
@@ -148,7 +133,17 @@ const RefreshableWrapper: React.FC<Props> = ({
         {typeof Loader === 'function' ? <Loader /> : Loader}
       </Animated.View>
 
-      <PanGestureHandler
+      <GestureDetector gesture={panGesture}>
+        <Animated.View style={[styles.flex, overscrollAnimation]}>
+          {children &&
+            React.cloneElement(children, {
+              onScroll: onListScroll,
+              bounces: false,
+            })}
+        </Animated.View>
+      </GestureDetector>
+
+      {/* <PanGestureHandler
         ref={panRef}
         simultaneousHandlers={listWrapperRef}
         onGestureEvent={onPanGestureEvent}
@@ -165,7 +160,7 @@ const RefreshableWrapper: React.FC<Props> = ({
               })}
           </NativeViewGestureHandler>
         </Animated.View>
-      </PanGestureHandler>
+      </PanGestureHandler> */}
     </View>
   );
 };
