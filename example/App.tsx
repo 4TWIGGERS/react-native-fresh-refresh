@@ -5,7 +5,7 @@ import TabOneScreen from './screens/TabOneScreen';
 
 export default function App() {
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <TabOneScreen />
     </GestureHandlerRootView>
   );

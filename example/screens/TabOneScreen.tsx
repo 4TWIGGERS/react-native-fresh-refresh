@@ -38,8 +38,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar />
-      <View style={styles.header}></View>
+      <View style={styles.header} />
       <RefreshableWrapper
         contentOffset={contentOffset}
         Loader={() => <View />}
@@ -69,7 +68,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
