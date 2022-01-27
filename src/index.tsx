@@ -53,6 +53,8 @@ const RefreshableWrapper: React.FC<Props> = ({
     }
   );
 
+  const native = Gesture.Native();
+
   const panGesture = Gesture.Pan()
     .onChange((event) => {
       'worklet';
@@ -135,11 +137,13 @@ const RefreshableWrapper: React.FC<Props> = ({
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.flex, overscrollAnimation]}>
-          {children &&
-            React.cloneElement(children, {
-              onScroll: onListScroll,
-              bounces: false,
-            })}
+          <GestureDetector gesture={Gesture.Simultaneous(panGesture, native)}>
+            {children &&
+              React.cloneElement(children, {
+                onScroll: onListScroll,
+                bounces: false,
+              })}
+          </GestureDetector>
         </Animated.View>
       </GestureDetector>
 
