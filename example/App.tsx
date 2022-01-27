@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   View,
   StyleSheet,
-  StatusBar,
   FlatList,
   FlatListProps,
   Dimensions,
