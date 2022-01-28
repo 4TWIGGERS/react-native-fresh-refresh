@@ -11,6 +11,7 @@ import Animated, { useSharedValue } from 'react-native-reanimated';
 import RefreshableWrapper from 'react-native-fresh-refresh';
 import EmptyComponent from './components/EmptyComponent';
 import ListItem from './components/ListItem';
+import DefaultLoader from './components/DefaultLoader';
 
 type Item = string;
 
@@ -41,7 +42,7 @@ export default function TabOneScreen() {
         <View style={styles.header} />
         <RefreshableWrapper
           contentOffset={contentOffset}
-          Loader={() => <View />}
+          Loader={() => <DefaultLoader />}
           isLoading={isLoading}
           onRefresh={() => {
             refreshSimulationHandler();
@@ -82,10 +83,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 100,
     alignItems: 'center',
+    backgroundColor:"white"
   },
-  lottie: {
-    width: 50,
-    height: 50,
-  },
-  scrollList: { width, paddingTop: 20 },
+  scrollList: { width, paddingTop: 0 },
 });
