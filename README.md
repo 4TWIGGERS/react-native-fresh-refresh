@@ -2,6 +2,20 @@
 
 > Custom pull to refresh Component
 
+<br>
+<br>
+
+## Note
+
+react-native-gesture-handler supported by Expo 44 has a bug which breaks fresh refresh
+
+## recommendation
+
+use react-native-gesture-handler below 2.0.0
+
+<br>
+<br>
+
 ### Usage
 
 ## Step 1
@@ -45,13 +59,7 @@ Wrap the component
 ```jsx
 <RefreshableWrapper
   contentOffset={contentOffset}
-  Loader={() => (
-    <LottieView
-      style={styles.lottie}
-      autoPlay
-      source={require('./assets/lottie/refresh.json')}
-    />
-  )}
+  Loader={() => <DefaultLoader />}
   isLoading={isLoading}
   onRefresh={() => {
     refreshHandler();
@@ -110,13 +118,7 @@ export default function App() {
       <View style={styles.header}></View>
       <RefreshableWrapper
         contentOffset={contentOffset}
-        Loader={() => (
-          <LottieView
-            style={styles.lottie}
-            autoPlay
-            source={require('./assets/lottie/refresh.json')}
-          />
-        )}
+        Loader={() => <DefaultLoader />}
         isLoading={isLoading}
         onRefresh={() => {
           refreshSimulationHandler();
