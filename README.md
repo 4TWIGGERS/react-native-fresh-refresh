@@ -3,17 +3,15 @@
 > Custom pull to refresh Component
 
 <br>
-<br>
 
-## Note
+## Note ❗
 
-react-native-gesture-handler supported by Expo 44 has a bug which breaks fresh refresh
+`react-native-gesture-handler` supported by Expo 44 has a bug which breaks fresh refresh
 
-## recommendation
+If you are using `react-native-gesture-handler` version below 2 please install `react-native-fresh-refresh` 1.1.0
 
-use react-native-gesture-handler below 2.0.0
 
-<br>
+
 <br>
 
 ### Usage
@@ -36,7 +34,7 @@ npm i -S react-native-fresh-refresh
 
 ## Prerequisites
 
-You are going to need to have reanimated v2 and react-native-gesture-handler installed in your project.
+You are going to need to have `react-native-reanimated` v2 and `react-native-gesture-handler` installed in your project.
 
 ## Step 2
 
