@@ -10,8 +10,6 @@
 
 If you are using `react-native-gesture-handler` version below 2 please install `react-native-fresh-refresh` 1.1.0
 
-
-
 <br>
 
 ### Usage
@@ -113,7 +111,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style='auto' />
-      <View style={styles.header}></View>
+      <View style={styles.header} />
       <RefreshableWrapper
         contentOffset={contentOffset}
         Loader={() => <DefaultLoader />}
@@ -121,7 +119,6 @@ export default function App() {
         onRefresh={() => {
           refreshSimulationHandler();
         }}
-        EmptyComponent={EmptyComponent}
       >
         <AnimatedFlatlist
           data={listData}
