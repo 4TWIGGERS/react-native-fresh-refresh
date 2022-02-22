@@ -22,7 +22,7 @@ const { width } = Dimensions.get('screen');
 
 const data: Item[] = ['1', '2', '3', '4', '5', '6'];
 
-export default function TabOneScreen() {
+export default function App() {
   const contentOffset = useSharedValue(0);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [listData, setListData] = React.useState<string[]>([]);
