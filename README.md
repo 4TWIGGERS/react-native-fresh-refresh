@@ -60,6 +60,7 @@ Wrap the component
   onRefresh={() => {
     refreshHandler();
   }}
+  bounces
 >
   <AnimatedFlatlist />
 </RefreshableWrapper>
@@ -119,10 +120,10 @@ export default function App() {
         onRefresh={() => {
           refreshSimulationHandler();
         }}
+        bounces
       >
         <AnimatedFlatlist
           data={listData}
-          bounces={false}
           keyExtractor={(item) => item}
           renderItem={({ item }) => {
             return <ListItem item={item} />;
@@ -180,6 +181,7 @@ const contentOffset = useSharedValue(0);
 		<YourAwsomeComponent />
 	})}
 	isLoading={isLoading}
+  bounces
 	onRefresh={() => {
 		refreshHandler();
 	}}
