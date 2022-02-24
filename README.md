@@ -4,6 +4,9 @@
 
 <br>
 
+<img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/fresh.png">
+
+
 ## Note ❗
 
 `react-native-gesture-handler` supported by Expo 44 has a bug which breaks fresh refresh
