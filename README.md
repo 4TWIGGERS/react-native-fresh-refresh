@@ -51,6 +51,33 @@ Create Animated List or regular View to use pull to refresh
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 ```
 
+## usage
+
+You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
+
+Pass Reanimated sharedValue to get overdrag Y-Offset
+
+```jsx
+const contentOffset = useSharedValue(0);
+```
+
+```jsx
+<RefreshableWrapper
+	defaultAnimationEnabled={false}
+	contentOffset={contentOffset}
+	Loader={() => ({
+		<YourAwsomeComponent />
+	})}
+	isLoading={isLoading}
+  bounces
+	onRefresh={() => {
+		refreshHandler();
+	}}
+>
+	<AnimatedFlatlist />
+</RefreshableWrapper>
+```
+
 
 
 ## Example
@@ -102,7 +129,7 @@ export default function App() {
       <View style={styles.header} />
       <RefreshableWrapper
         contentOffset={contentOffset}
-        Loader={() => <YourAwsomeLoader />}
+        Loader={() => <YourAwsomeComponent />}
         isLoading={isLoading}
         onRefresh={() => {
           refreshSimulationHandler();
@@ -150,32 +177,7 @@ const styles = StyleSheet.create({
 
 <img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/refresh.gif">
 
-## Advanced usage
 
-You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
-
-Pass Reanimated sharedValue to get overdrag Y-Offset
-
-```jsx
-const contentOffset = useSharedValue(0);
-```
-
-```jsx
-<RefreshableWrapper
-	defaultAnimationEnabled={false}
-	contentOffset={contentOffset}
-	Loader={() => ({
-		<YourAwsomeComponent />
-	})}
-	isLoading={isLoading}
-  bounces
-	onRefresh={() => {
-		refreshHandler();
-	}}
->
-	<AnimatedFlatlist />
-</RefreshableWrapper>
-```
 
 ## Hire us
 
