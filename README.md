@@ -51,23 +51,7 @@ Create Animated List or regular View to use pull to refresh
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 ```
 
-## Step 4
 
-Wrap the component
-
-```jsx
-<RefreshableWrapper
-  contentOffset={contentOffset}
-  Loader={() => <DefaultLoader />}
-  isLoading={isLoading}
-  onRefresh={() => {
-    refreshHandler();
-  }}
-  bounces
->
-  <AnimatedFlatlist />
-</RefreshableWrapper>
-```
 
 ## Example
 
@@ -118,7 +102,7 @@ export default function App() {
       <View style={styles.header} />
       <RefreshableWrapper
         contentOffset={contentOffset}
-        Loader={() => <DefaultLoader />}
+        Loader={() => <YourAwsomeLoader />}
         isLoading={isLoading}
         onRefresh={() => {
           refreshSimulationHandler();
