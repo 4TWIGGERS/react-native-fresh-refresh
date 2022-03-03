@@ -53,7 +53,7 @@ const RefreshableWrapper: React.FC<Props> = ({
     listContentOffsetY.value = y;
     // recover children component onScroll event
     if (children.props.onScroll) {
-      children.props.onScroll(event);
+      runOnJS(children.props.onScroll)(event);
     }
   });
 
