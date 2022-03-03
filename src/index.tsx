@@ -13,6 +13,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { HitSlop } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 
 interface Props {
   isLoading: boolean;
@@ -23,6 +24,7 @@ interface Props {
   children: JSX.Element;
   Loader?: () => JSX.Element | JSX.Element;
   bounces: boolean;
+  hitSlop?: HitSlop;
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -33,7 +35,8 @@ const RefreshableWrapper: React.FC<Props> = ({
   contentOffset,
   children,
   Loader = <DefaultLoader />,
-  bounces = true
+  bounces = true,
+  hitSlop,
 }) => {
   const isRefreshing = useSharedValue(false);
   const loaderOffsetY = useSharedValue(0);
@@ -82,6 +85,10 @@ const RefreshableWrapper: React.FC<Props> = ({
         }
       }
     });
+
+  if (hitSlop !== undefined) {
+    panGesture.hitSlop(hitSlop);
+  }
 
   useDerivedValue(() => {
     if (contentOffset) {
