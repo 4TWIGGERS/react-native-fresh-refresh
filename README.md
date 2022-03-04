@@ -53,9 +53,6 @@ const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 
 <br>
 <br>
-
-## Minimal Usage
-
 <br>
 
 You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
