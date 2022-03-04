@@ -51,7 +51,12 @@ Create Animated List or regular View to use pull to refresh
 const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
 ```
 
-## usage
+<br>
+<br>
+
+## Minimal Usage
+
+<br>
 
 You can disable default styles of loader container passing prop `defaultAnimationEnabled={false}`
 
@@ -69,7 +74,7 @@ const contentOffset = useSharedValue(0);
 		<YourAwsomeComponent />
 	})}
 	isLoading={isLoading}
-  bounces
+    bounces
 	onRefresh={() => {
 		refreshHandler();
 	}}
@@ -78,9 +83,12 @@ const contentOffset = useSharedValue(0);
 </RefreshableWrapper>
 ```
 
-
+<br>
+<br>
 
 ## Example
+
+<br>
 
 ```jsx
 import { StatusBar } from 'expo-status-bar';
