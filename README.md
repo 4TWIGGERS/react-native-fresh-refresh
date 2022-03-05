@@ -6,7 +6,6 @@
 
 <img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/fresh.png">
 
-
 ## Note ❗
 
 `react-native-gesture-handler` supported by Expo 44 has a bug which breaks fresh refresh
@@ -63,22 +62,21 @@ const contentOffset = useSharedValue(0);
 
 ```jsx
 <RefreshableWrapper
-	defaultAnimationEnabled={false}
-	contentOffset={contentOffset}
-	Loader={() => ({
-		<YourAwsomeComponent />
-	})}
-	isLoading={isLoading}
+  defaultAnimationEnabled={false}
+  contentOffset={contentOffset}
+  Loader={() => ({
+    <YourAwsomeComponent />
+  })}
+  isLoading={isLoading}
   bounces
-	onRefresh={() => {
-		refreshHandler();
-	}}
+  //hitslop={{left: -50}}
+  onRefresh={() => {
+    refreshHandler();
+  }}
 >
-	<AnimatedFlatlist />
+  <AnimatedFlatlist />
 </RefreshableWrapper>
 ```
-
-
 
 ## Example
 
@@ -177,7 +175,9 @@ const styles = StyleSheet.create({
 
 <img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/refresh.gif">
 
+## Tips
 
+- If you have gesture conflicts, you can use 'hitslop' to control the trigger timing. [see here](https://docs.swmansion.com/react-native-gesture-handler/docs/2.0.0/gesture-handlers/api/common-gh/#hitslop)
 
 ## Hire us
 
