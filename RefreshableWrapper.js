@@ -20,6 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const RefreshableWrapper = ({
+	managedLoading = false,
 	isLoading,
 	onRefresh,
 	refreshHeight = 100,
@@ -46,6 +47,12 @@ const RefreshableWrapper = ({
 			loaderOffsetY.value = withTiming(0);
 			isRefreshing.value = false;
 			isLoaderActive.value = false;
+		} else if (managedLoading) {
+			// In managed mode, we want to start the animation
+			// running when isLoading is set to true as well
+			loaderOffsetY.value = withTiming(refreshHeight);
+			isRefreshing.value = true;
+			isLoaderActive.value = true;
 		}
 	}, [isLoading]);
 
