@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { NativeScrollEvent, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import DefaultLoader from './loader';
 import Animated, {
@@ -22,7 +22,7 @@ interface Props {
   contentOffset?: Animated.SharedValue<number>;
   children: JSX.Element;
   Loader?: () => JSX.Element | JSX.Element;
-  bounces: boolean;
+  bounces?: boolean;
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -33,7 +33,7 @@ const RefreshableWrapper: React.FC<Props> = ({
   contentOffset,
   children,
   Loader = <DefaultLoader />,
-  bounces = true
+  bounces = true,
 }) => {
   const isRefreshing = useSharedValue(false);
   const loaderOffsetY = useSharedValue(0);
@@ -48,12 +48,14 @@ const RefreshableWrapper: React.FC<Props> = ({
     }
   }, [isLoading]);
 
-  const onScroll = useAnimatedScrollHandler(
-    (event: { contentOffset: { y: number } }) => {
-      const y = event.contentOffset.y;
-      listContentOffsetY.value = y;
+  const onScroll = useAnimatedScrollHandler((event: NativeScrollEvent) => {
+    const y = event.contentOffset.y;
+    listContentOffsetY.value = y;
+    // recover children component onScroll event
+    if (children.props.onScroll) {
+      runOnJS(children.props.onScroll)(event);
     }
-  );
+  });
 
   const native = Gesture.Native();
 
