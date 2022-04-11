@@ -23,8 +23,9 @@ interface Props {
   contentOffset?: Animated.SharedValue<number>;
   children: JSX.Element;
   Loader?: () => JSX.Element | JSX.Element;
-  bounces: boolean;
+  bounces?: boolean;
   hitSlop?: HitSlop;
+  managedLoading?: boolean;
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -37,6 +38,7 @@ const RefreshableWrapper: React.FC<Props> = ({
   Loader = <DefaultLoader />,
   bounces = true,
   hitSlop,
+  managedLoading = false,
 }) => {
   const isRefreshing = useSharedValue(false);
   const loaderOffsetY = useSharedValue(0);
@@ -48,6 +50,12 @@ const RefreshableWrapper: React.FC<Props> = ({
       loaderOffsetY.value = withTiming(0);
       isRefreshing.value = false;
       isLoaderActive.value = false;
+    } else if (managedLoading) {
+      // In managed mode, we want to start the animation
+      // running when isLoading is set to true as well
+      loaderOffsetY.value = withTiming(refreshHeight);
+      isRefreshing.value = true;
+      isLoaderActive.value = true;
     }
   }, [isLoading]);
 
