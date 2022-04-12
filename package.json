@@ -1,6 +1,6 @@
 {
   "name": "react-native-fresh-refresh",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Custom pull to refresh",
   "source": "./index.tsx",
   "main": "lib/index.js",
