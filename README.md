@@ -71,7 +71,8 @@ const contentOffset = useSharedValue(0);
   })}
   isLoading={isLoading}
   bounces
-  //hitslop={{left: -50}}
+  hitslop={{left: -50}} // Add the gesture hitslop
+  managedLoading   // Trigger loading animation on state change 
   onRefresh={() => {
     refreshHandler();
   }}
