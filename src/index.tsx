@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
-import { NativeScrollEvent, StyleSheet, View } from 'react-native';
+import {
+  NativeScrollEvent,
+  StyleSheet,
+  View,
+  TransformsStyle,
+} from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import DefaultLoader from './loader';
 import Animated, {
+  Easing,
   Extrapolate,
   interpolate,
   runOnJS,
+  useAnimatedProps,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withRepeat,
   withSpring,
   withTiming,
+  withDelay,
 } from 'react-native-reanimated';
 import { HitSlop } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerCommon';
 
@@ -22,10 +31,29 @@ interface Props {
   defaultAnimationEnabled?: boolean;
   contentOffset?: Animated.SharedValue<number>;
   children: JSX.Element;
-  Loader?: () => JSX.Element | JSX.Element;
+  Loader?: ({
+    animatedProps,
+  }: {
+    animatedProps?: Partial<{
+      progress: number;
+    }>;
+  }) => JSX.Element | JSX.Element;
   bounces?: boolean;
   hitSlop?: HitSlop;
   managedLoading?: boolean;
+  speed?: number;
+  /**
+   * @description: custom animation for Loader.
+   * @param loading Is it in loading state.
+   * @param offsetY Offset a to scroll down.
+   * @param callback For stop progress animation.
+   * @return CSS transform property animation.
+   */
+  onCustomAnimation: (
+    loading: boolean,
+    offsetY: number,
+    callback: (flag?: boolean) => void
+  ) => TransformsStyle['transform'];
 }
 
 const RefreshableWrapper: React.FC<Props> = ({
@@ -39,11 +67,14 @@ const RefreshableWrapper: React.FC<Props> = ({
   bounces = true,
   hitSlop,
   managedLoading = false,
+  speed = 2000,
+  onCustomAnimation,
 }) => {
   const isRefreshing = useSharedValue(false);
   const loaderOffsetY = useSharedValue(0);
   const listContentOffsetY = useSharedValue(0);
   const isLoaderActive = useSharedValue(false);
+  const progress = useSharedValue<number>(0);
 
   useEffect(() => {
     if (!isLoading) {
@@ -56,8 +87,22 @@ const RefreshableWrapper: React.FC<Props> = ({
       loaderOffsetY.value = withTiming(refreshHeight);
       isRefreshing.value = true;
       isLoaderActive.value = true;
+      onProgressPlay();
     }
   }, [isLoading]);
+
+  // start to play progress animation
+  const onProgressPlay = () => {
+    'worklet';
+    progress.value = 0;
+    progress.value = withRepeat(
+      withTiming(1, {
+        duration: speed,
+        easing: Easing.linear,
+      }),
+      -1
+    );
+  };
 
   const onScroll = useAnimatedScrollHandler((event: NativeScrollEvent) => {
     const y = event.contentOffset.y;
@@ -81,6 +126,8 @@ const RefreshableWrapper: React.FC<Props> = ({
         !isRefreshing.value
       ) {
         loaderOffsetY.value = event.translationY;
+        const progressVal = event.translationY / 1.2 / refreshHeight;
+        progress.value = progressVal > 1 ? 1 : progressVal;
       }
     })
     .onEnd(() => {
@@ -88,6 +135,7 @@ const RefreshableWrapper: React.FC<Props> = ({
       if (!isRefreshing.value) {
         if (loaderOffsetY.value >= refreshHeight && !isRefreshing.value) {
           isRefreshing.value = true;
+          onProgressPlay();
           runOnJS(onRefresh)();
         } else {
           isLoaderActive.value = false;
@@ -122,9 +170,27 @@ const RefreshableWrapper: React.FC<Props> = ({
                 : withTiming(-10),
             },
             {
-              scale: isLoaderActive.value ? withSpring(1) : withTiming(0.01),
+              scale: isLoaderActive.value
+                ? withSpring(1)
+                : withTiming(0.01, undefined, (flag) => {
+                    if (flag) {
+                      // stop progress animation
+                      progress.value = withDelay(300, withTiming(0));
+                    }
+                  }),
             },
           ]
+        : onCustomAnimation
+        ? onCustomAnimation(
+            isLoaderActive.value,
+            loaderOffsetY.value,
+            (flag) => {
+              if (flag) {
+                // stop progress animation
+                progress.value = withDelay(300, withTiming(0));
+              }
+            }
+          )
         : undefined,
     };
   });
@@ -148,10 +214,20 @@ const RefreshableWrapper: React.FC<Props> = ({
     };
   });
 
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      progress: progress.value,
+    };
+  });
+
   return (
     <View style={styles.flex}>
       <Animated.View style={[styles.loaderContainer, loaderAnimation]}>
-        {typeof Loader === 'function' ? <Loader /> : Loader}
+        {typeof Loader === 'function' ? (
+          <Loader animatedProps={animatedProps} />
+        ) : (
+          Loader
+        )}
       </Animated.View>
 
       <GestureDetector gesture={panGesture}>
