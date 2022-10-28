@@ -4,7 +4,7 @@
 
 <br>
 
-<img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/fresh.png">
+<img width="300" src="gif/fresh.png">
 
 ## Note ❗
 
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-<img width="300" src="https://github.com/4TWIGGERS/react-native-fresh-refresh/blob/main/gif/refresh.gif">
+<img width="300" src="gif/refresh.gif">
 
 ## Tips
 
